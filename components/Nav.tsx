@@ -36,7 +36,7 @@ export default function Nav() {
         solid ? "border-line bg-ink/95" : "border-transparent bg-transparent"
       }`}
     >
-      <nav aria-label="Main" className="page-container flex h-[4.5rem] items-center justify-between">
+      <nav aria-label="Main" className="page-container flex h-header items-center justify-between">
         <a href="#top" className="flex items-center gap-3" aria-label="WebTree Global, back to top">
           <HexTree className="h-7 w-auto" />
           <Wordmark />

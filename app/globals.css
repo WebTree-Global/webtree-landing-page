@@ -29,6 +29,9 @@
   --text-display-3--line-height: 1.18;
   --text-display-3--letter-spacing: -0.01em;
 
+  /* Height of the fixed header; the hero and anchor jumps clear it. */
+  --spacing-header: 4.5rem;
+
   /* Exponential ease-out: quick start, long gentle settle. */
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -39,8 +42,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* Anchor targets clear the fixed header. */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: calc(var(--spacing-header) + 0.5rem);
   background-color: var(--color-ink);
   color-scheme: dark;
 }

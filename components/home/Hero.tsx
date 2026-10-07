@@ -13,7 +13,7 @@ const riseDelay = (seconds: number) => ({ "--delay": `${seconds}s` }) as CSSProp
 
 export default function Hero() {
   return (
-    <section id="top" aria-labelledby="hero-title" className="flex min-h-svh flex-col pt-[4.5rem]">
+    <section id="top" aria-labelledby="hero-title" className="flex min-h-svh flex-col pt-header">
       <div className="page-container grid flex-1 grid-cols-12 items-center gap-x-6 gap-y-12 py-14 lg:py-10">
         <div className="col-span-12 lg:col-span-7">
           <p className="label rise text-gold" style={riseDelay(0.1)}>
