@@ -18,11 +18,11 @@ const PRINCIPLES = [
   },
 ];
 
-export default function Principles() {
+export default function Philosophy() {
   return (
-    <section id="principles" aria-labelledby="principles-title" className="page-section">
+    <section id="philosophy" aria-labelledby="philosophy-title" className="page-section">
       <div className="page-container">
-        <SectionHeading index="02" title="Principles" id="principles-title" />
+        <SectionHeading title="Philosophy" id="philosophy-title" />
 
         <p className="reveal mt-12 max-w-[25ch] font-serif text-display-2 font-light text-ivory md:mt-16">
           We believe in the patient compounding of capital through disciplined,

@@ -86,7 +86,7 @@ body {
 }
 
 @utility page-section {
-  padding-block: clamp(5rem, 3rem + 7vw, 9.5rem);
+  padding-block: clamp(4rem, 2rem + 5vw, 7rem);
 }
 
 /* Wide-tracked capitals for labels, set in the expanded cut of Archivo. */

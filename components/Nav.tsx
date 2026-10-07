@@ -33,7 +33,7 @@ export default function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-500 ${
-        solid ? "border-line bg-ink/95" : "border-transparent bg-transparent"
+        solid ? "border-line bg-ink" : "border-transparent bg-transparent"
       }`}
     >
       <nav aria-label="Main" className="page-container flex h-header items-center justify-between">
@@ -58,11 +58,22 @@ export default function Nav() {
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
-          className="label -mr-2 px-2 py-3 text-ivory-muted md:hidden"
+          className="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-[7px] md:hidden"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
         >
-          {menuOpen ? "Close" : "Menu"}
+          {/* Two lines that cross into an X; 4px = half the 7px gap plus the 1px line. */}
+          <span
+            className={`block h-px w-5 bg-ivory transition-transform duration-300 ${
+              menuOpen ? "translate-y-[4px] rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`block h-px w-5 bg-ivory transition-transform duration-300 ${
+              menuOpen ? "-translate-y-[4px] -rotate-45" : ""
+            }`}
+          />
         </button>
       </nav>
 

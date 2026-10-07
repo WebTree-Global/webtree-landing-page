@@ -18,7 +18,6 @@ REPO = Path(__file__).resolve().parent.parent
 FONT_DIR = REPO / 'scripts' / '.fonts'
 FONT_URLS = {
     'Spectral-Light.ttf': 'https://github.com/google/fonts/raw/main/ofl/spectral/Spectral-Light.ttf',
-    'Spectral-LightItalic.ttf': 'https://github.com/google/fonts/raw/main/ofl/spectral/Spectral-LightItalic.ttf',
     'Archivo.ttf': 'https://github.com/google/fonts/raw/main/ofl/archivo/Archivo%5Bwdth,wght%5D.ttf',
 }
 FONT_DIR.mkdir(parents=True, exist_ok=True)
@@ -76,7 +75,7 @@ for cx, cy, r, o in LEAVES:
 parts.append('</g></g></svg>')
 open(REPO / 'app' / 'icon.svg', 'w').write(''.join(parts) + '\n')
 
-# ── Open Graph image, 1200 x 630 ──
+# ── Open Graph image, 1200 x 630: the hero in miniature (mark, wordmark, tagline). ──
 W, H, SS = 1200, 630, 2
 og = Image.new('RGB', (W*SS, H*SS), INK)
 d = ImageDraw.Draw(og)
@@ -85,37 +84,24 @@ def font(path, size, wdth=None, wght=None):
     if wdth is not None:
         f.set_variation_by_axes([wdth, wght])
     return f
-label = font(FONT_DIR / 'Archivo.ttf', 15, wdth=115, wght=500)
-title = font(FONT_DIR / 'Spectral-Light.ttf', 48)
-title_it = font(FONT_DIR / 'Spectral-LightItalic.ttf', 48)
-mark = font(FONT_DIR / 'Archivo.ttf', 16, wdth=115, wght=600)
-mark_light = font(FONT_DIR / 'Archivo.ttf', 16, wdth=115, wght=400)
 
-M = 80  # outer margin
-def tracked(xy, text, f, fill, tracking_em=0.16, size=15):
-    x, y = xy
+def tracked_width(text, f, tracking_em, size):
+    gap = tracking_em*size*SS
+    return sum(d.textlength(ch, font=f) for ch in text) + gap*(len(text) - 1)
+
+def tracked_centred(y, text, f, fill, tracking_em, size):
+    """Draw letter-spaced text centred on the canvas; y is the top in output px."""
+    x = (W*SS - tracked_width(text, f, tracking_em, size)) / 2
     for ch in text:
-        d.text((x, y), ch, font=f, fill=fill)
+        d.text((x, y*SS), ch, font=f, fill=fill)
         x += d.textlength(ch, font=f) + tracking_em*size*SS
-    return x
 
-tracked((M*SS, 92*SS), 'STRATEGIC CAPITAL · SYSTEMATIC EXECUTION', label, GOLD)
-lines = [('A Singapore holding company', title, IVORY), ('for capital, technology', title_it, IVORY_MUTED),
-         ('and ventures.', title_it, IVORY_MUTED)]
-y = 150
-for text, f, fill in lines:
-    d.text((M*SS, y*SS), text, font=f, fill=fill)
-    y += 60
-# bottom rule + wordmark + location
-d.line([(M*SS, 520*SS), ((W-M)*SS, 520*SS)], fill=LINE, width=SS)
-x = tracked((M*SS, 548*SS), 'WEBTREE', mark, IVORY, size=16)
-x = tracked((x + 4*SS, 548*SS), 'GLOBAL', mark_light, IVORY_FAINT, size=16)
-loc = 'SINGAPORE'
-loc_w = sum(d.textlength(c, font=label) + 0.16*15*SS for c in loc) - 0.16*15*SS
-tracked(((W-M)*SS - loc_w, 549*SS), loc, label, IVORY_FAINT)
-# tree on the right, top-aligned with the label
-tree_h = 380; scale = tree_h*SS/432
-draw_tree(og, (W-M)*SS - 410*scale, 92*SS - 14*scale, scale)
+TREE_H = 190
+scale = TREE_H*SS/432
+draw_tree(og, (W*SS - 400*scale)/2 - 10*scale, 70*SS - 14*scale, scale)
+tracked_centred(300, 'WEBTREE', font(FONT_DIR / 'Spectral-Light.ttf', 104), IVORY, 0.08, 104)
+tracked_centred(436, 'GLOBAL', font(FONT_DIR / 'Archivo.ttf', 24, wdth=115, wght=500), IVORY_FAINT, 0.42, 24)
+tracked_centred(520, 'STRATEGIC CAPITAL · SYSTEMATIC EXECUTION', font(FONT_DIR / 'Archivo.ttf', 15, wdth=115, wght=500), IVORY_MUTED, 0.16, 15)
 og.resize((W, H), Image.LANCZOS).save(REPO / 'app' / 'opengraph-image.png', optimize=True)
-open(REPO / 'app' / 'opengraph-image.alt.txt', 'w').write('WebTree Global: a Singapore holding company for capital, technology and ventures.\n')
+open(REPO / 'app' / 'opengraph-image.alt.txt', 'w').write('WebTree Global — Strategic Capital · Systematic Execution\n')
 print(f'Rendered icons and OG image from {len(BRANCHES)} branches and {len(LEAVES)} leaves.')

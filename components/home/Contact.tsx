@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="page-section">
       <div className="page-container">
-        <SectionHeading index="03" title="Contact" id="contact-title" />
+        <SectionHeading title="Contact" id="contact-title" />
 
         <div className="mt-12 grid grid-cols-12 gap-x-6 gap-y-14 md:mt-16">
           <p className="reveal col-span-12 max-w-[20ch] font-serif text-display-3 font-light text-ivory-muted lg:col-span-6">
@@ -14,6 +14,7 @@ export default function Contact() {
           </p>
 
           <div className="reveal col-span-12 lg:col-span-6">
+            <p className="label mb-4 text-ivory-faint">Email</p>
             <a
               href={`mailto:${SITE.email}`}
               className="font-serif text-[clamp(1.75rem,1rem+3vw,3rem)] font-light leading-tight text-ivory underline decoration-gold/50 decoration-1 underline-offset-[0.25em] transition-colors duration-300 hover:text-gold-bright hover:decoration-gold"

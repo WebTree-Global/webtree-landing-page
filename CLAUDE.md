@@ -12,7 +12,7 @@ Single-page institutional landing site for Webtree Global Pte. Ltd.
 ```
 app/
   layout.tsx              — Root layout, metadata, fonts (next/font)
-  page.tsx                — Home page (Hero → Focus → Principles → Contact)
+  page.tsx                — Home page (Hero → About → Philosophy → Contact)
   globals.css             — Colour/type tokens, utilities, entrance animations
   icon.svg, favicon.ico,
   apple-icon.png,
@@ -22,11 +22,11 @@ components/
   Footer.tsx              — Mark, wordmark, legal line
   HexTree.tsx             — The logo as SVG: static, animated, or one region highlighted
   Wordmark.tsx            — "WEBTREE GLOBAL" capitals
-  SectionHeading.tsx      — Hairline + number + title opener for each section
+  SectionHeading.tsx      — Hairline + gold hexagon + title opener for each section
   home/
-    Hero.tsx              — Statement, CTA, growing tree, facts strip
-    Focus.tsx             — Capital / Technology / Ventures ledger rows
-    Principles.tsx        — Statement + three principles
+    Hero.tsx              — Understated: growing tree, wordmark, tagline only
+    About.tsx             — About sentence + Capital / Technology / Ventures rows
+    Philosophy.tsx        — Statement + three principles
     Contact.tsx           — Email, copy button, location, entity
     CopyEmailButton.tsx   — Clipboard helper (client)
 lib/
@@ -50,5 +50,5 @@ Vercel builds a preview URL for review.
   expanded width for capital labels).
 - **Logo:** `public/webtree-logo.png` is the raster master. `lib/tree-geometry.ts`
   is its vector redraw; the icons and OG image are rendered from it.
-- **Tone:** institutional, restrained, discreet. See `.impeccable.md` for the
-  full design context and the content rule (no new claims or names).
+- **Tone:** institutional, subtle, understated. The copy is fixed: keep it
+  word for word (see `.impeccable.md` and `tasks/lessons.md`).

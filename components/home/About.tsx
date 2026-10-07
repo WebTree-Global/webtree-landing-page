@@ -34,13 +34,18 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-export default function Focus() {
+export default function About() {
   return (
-    <section id="focus" aria-labelledby="focus-title" className="page-section">
+    <section id="about" aria-labelledby="about-title" className="page-section">
       <div className="page-container">
-        <SectionHeading index="01" title="Focus" id="focus-title" />
+        <SectionHeading title="About" id="about-title" />
 
-        <ol className="mt-6">
+        <p className="reveal mt-12 max-w-[30ch] font-serif text-display-2 font-light text-ivory md:mt-16">
+          A Singapore-based holding company operating across strategic capital
+          allocation, technology, and venture partnerships.
+        </p>
+
+        <ol className="mt-12 md:mt-20">
           {PILLARS.map((pillar) => (
             <li
               key={pillar.number}

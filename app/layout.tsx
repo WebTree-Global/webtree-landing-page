@@ -30,12 +30,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     template: `%s | ${SITE.name}`,
-    default: `${SITE.name} — Strategic capital, technology and ventures`,
+    default: SITE.name,
   },
   description: SITE.description,
   openGraph: {
     title: SITE.name,
-    description: SITE.description,
+    description: SITE.shareDescription,
     siteName: SITE.name,
     locale: "en_SG",
     type: "website",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE.name,
-    description: SITE.description,
+    description: SITE.shareDescription,
   },
 };
 
