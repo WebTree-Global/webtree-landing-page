@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import HexTree from "@/components/HexTree";
 import Wordmark from "@/components/Wordmark";
 import { NAV_LINKS } from "@/lib/site";
 
@@ -37,8 +36,8 @@ export default function Nav() {
       }`}
     >
       <nav aria-label="Main" className="page-container flex h-header items-center justify-between">
-        <a href="#top" className="flex items-center gap-3" aria-label="WebTree Global, back to top">
-          <HexTree className="h-7 w-auto" />
+        {/* Wordmark only: the hero already shows the tree. */}
+        <a href="#top" aria-label="WebTree Global, back to top">
           <Wordmark />
         </a>
 

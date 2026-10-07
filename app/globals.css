@@ -144,15 +144,15 @@ body {
   transition-delay: 0s;
 }
 
-/* Row numbers and tree annotations turn gold with their region. */
-[data-annotation] {
+/* A row's number turns gold while its region is lit. */
+[data-region-marker] {
   color: var(--color-ivory-faint);
   transition: color 0.8s var(--ease-out-quint);
 }
 
-:root[data-tree-focus="roots"] [data-annotation="roots"],
-:root[data-tree-focus="branches"] [data-annotation="branches"],
-:root[data-tree-focus="canopy"] [data-annotation="canopy"] {
+:root[data-tree-focus="roots"] [data-region-marker="roots"],
+:root[data-tree-focus="branches"] [data-region-marker="branches"],
+:root[data-tree-focus="canopy"] [data-region-marker="canopy"] {
   color: var(--color-gold);
 }
 
