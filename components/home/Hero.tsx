@@ -1,115 +1,88 @@
-"use client";
+import type { CSSProperties } from "react";
+import HexTree from "@/components/HexTree";
+import { SITE } from "@/lib/site";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { staggerContainer, staggerItem } from "@/lib/animations";
+const FACTS = [
+  { term: "Headquarters", detail: SITE.location },
+  { term: "Entity", detail: SITE.legalName },
+  { term: "Correspondence", detail: SITE.email, href: `mailto:${SITE.email}` },
+];
+
+/** Entrance delay for one line of hero copy, read by the .rise animation. */
+const riseDelay = (seconds: number) => ({ "--delay": `${seconds}s` }) as CSSProperties;
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* ── Background Layers ── */}
+    <section id="top" aria-labelledby="hero-title" className="flex min-h-svh flex-col pt-[4.5rem]">
+      <div className="page-container grid flex-1 grid-cols-12 items-center gap-x-6 gap-y-12 py-14 lg:py-10">
+        <div className="col-span-12 lg:col-span-7">
+          <p className="label rise text-gold" style={riseDelay(0.1)}>
+            {SITE.tagline}
+          </p>
 
-      {/* 1. Subtle grid pattern */}
-      <div className="absolute inset-0 bg-grid opacity-30" />
+          <h1
+            id="hero-title"
+            className="mt-8 max-w-[17ch] font-serif text-display-1 font-light text-ivory"
+          >
+            <span className="rise block" style={riseDelay(0.2)}>
+              A Singapore holding company
+            </span>
+            <span className="rise block italic text-ivory-muted" style={riseDelay(0.35)}>
+              for capital, technology and ventures.
+            </span>
+          </h1>
 
-      {/* 2. Ghostly watermark logo */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <Image
-          src="/webtree-logo.png"
-          alt=""
-          width={600}
-          height={600}
-          className="h-[500px] sm:h-[550px] md:h-[600px] w-auto opacity-[0.04] animate-gentle-float select-none"
-          aria-hidden="true"
-        />
+          <div className="rise mt-12" style={riseDelay(0.55)}>
+            <a
+              href="#contact"
+              className="label group inline-flex items-center gap-4 border border-gold/60 px-6 py-4 text-ivory transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-ink"
+            >
+              Get in touch
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 ease-out-quint group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div className="col-span-12 flex justify-center lg:col-span-5 lg:justify-end">
+          <HexTree
+            animated
+            title="The WebTree hex-tree emblem"
+            className="h-auto w-full max-w-[17rem] sm:max-w-[22rem] lg:max-h-[min(64svh,34rem)] lg:max-w-full"
+          />
+        </div>
       </div>
 
-      {/* 3. Central radial glow — warm gold */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(201,169,110,0.05) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* 4. Secondary teal glow — offset */}
-      <div
-        className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(20,184,166,0.04) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* ── Content ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-          className="flex flex-col items-center"
-        >
-          {/* Logo mark */}
-          <motion.div variants={staggerItem} className="mb-10">
-            <Image
-              src="/webtree-logo.png"
-              alt="WebTree Global"
-              width={140}
-              height={140}
-              className="h-[100px] sm:h-[120px] md:h-[140px] w-auto opacity-70"
-              priority
-            />
-          </motion.div>
-
-          {/* Wordmark */}
-          <motion.h1
-            variants={staggerItem}
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] tracking-[0.08em] uppercase text-text/95 mb-2"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 300 }}
-          >
-            WebTree
-          </motion.h1>
-
-          {/* Sub-wordmark */}
-          <motion.p
-            variants={staggerItem}
-            className="text-3xl sm:text-4xl md:text-5xl tracking-[0.35em] uppercase text-muted mb-16"
-            style={{ fontFamily: "var(--font-accent)", fontWeight: 300 }}
-          >
-            Global
-          </motion.p>
-
-          {/* Decorative divider with diamond */}
-          <motion.div
-            variants={staggerItem}
-            className="flex items-center justify-center gap-3 mb-16"
-          >
-            <span className="gradient-line w-[36px] shrink-0" />
-            <span className="block w-1.5 h-1.5 rotate-45 bg-accent/50 shrink-0" />
-            <span className="gradient-line w-[36px] shrink-0" />
-          </motion.div>
-
-          {/* Tagline */}
-          <motion.p
-            variants={staggerItem}
-            className="text-xs sm:text-sm tracking-[0.3em] uppercase text-muted"
-            style={{ fontFamily: "var(--font-accent)", fontWeight: 400 }}
-          >
-            Strategic Capital &middot; Systematic Execution
-          </motion.p>
-        </motion.div>
+      <div className="page-container">
+        <dl className="grid border-t border-line sm:grid-cols-3">
+          {FACTS.map((fact, index) => (
+            <div
+              key={fact.term}
+              className={`flex flex-col gap-1.5 py-5 sm:py-6 ${
+                index > 0 ? "border-t border-line sm:border-t-0 sm:border-l sm:pl-6" : ""
+              }`}
+            >
+              <dt className="label text-ivory-faint">{fact.term}</dt>
+              <dd className="text-[0.9375rem] text-ivory">
+                {fact.href ? (
+                  <a
+                    href={fact.href}
+                    className="underline decoration-gold/40 underline-offset-4 transition-colors duration-300 hover:text-gold-bright hover:decoration-gold"
+                  >
+                    {fact.detail}
+                  </a>
+                ) : (
+                  fact.detail
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
-
-      {/* ── Scroll Indicator ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center"
-      >
-        <div className="w-px h-10 animate-gentle-float bg-gradient-to-b from-accent/40 to-transparent" />
-      </motion.div>
     </section>
   );
 }

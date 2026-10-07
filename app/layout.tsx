@@ -1,66 +1,69 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Archivo, Spectral } from "next/font/google";
 import "@/app/globals.css";
-import ClientNav from "@/components/ClientNav";
+import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import AmbientBg from "@/components/AmbientBg";
-import HexGrid from "@/components/HexGrid";
+import { SITE } from "@/lib/site";
+
+const spectral = Spectral({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+  variable: "--font-spectral",
+  display: "swap",
+});
+
+/* Variable width axis: body text uses the normal width, labels the
+   expanded cut (see the `label` utility in globals.css). */
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-archivo",
+  display: "swap",
+});
+
+/* Vercel sets the production domain at build time; local builds fall back
+   to the project's default domain. */
+const siteUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "webtree-landing-page.vercel.app"}`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    template: "%s | WebTree Global",
-    default: "WebTree Global",
+    template: `%s | ${SITE.name}`,
+    default: `${SITE.name} — Strategic capital, technology and ventures`,
   },
-  description:
-    "Webtree Global Pte. Ltd. — Strategic capital allocation, technology, and venture partnerships. Singapore.",
-  icons: {
-    icon: "/webtree-logo.png",
-    apple: "/webtree-logo.png",
-  },
+  description: SITE.description,
   openGraph: {
-    title: "WebTree Global",
-    description:
-      "Strategic capital allocation, technology, and venture partnerships.",
-    siteName: "WebTree Global",
+    title: SITE.name,
+    description: SITE.description,
+    siteName: SITE.name,
     locale: "en_SG",
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebTree Global",
-    description:
-      "Strategic capital allocation, technology, and venture partnerships.",
-    images: ["/og-image.png"],
+    title: SITE.name,
+    description: SITE.description,
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: "#0d0b08",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="noise-overlay">
-        <AmbientBg />
-        <HexGrid />
-        <div className="relative z-10">
-          <ClientNav />
-          {children}
-          <Footer />
-        </div>
+    <html lang="en" className={`${spectral.variable} ${archivo.variable}`}>
+      <body>
+        <a
+          href="#main"
+          className="label sr-only z-[60] bg-gold px-4 py-3 text-ink focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+        >
+          Skip to content
+        </a>
+        <Nav />
+        {children}
+        <Footer />
       </body>
     </html>
   );

@@ -1,16 +1,14 @@
-"use client";
-
 import Hero from "@/components/home/Hero";
-import About from "@/components/home/About";
-import Philosophy from "@/components/home/Philosophy";
+import Focus from "@/components/home/Focus";
+import Principles from "@/components/home/Principles";
 import Contact from "@/components/home/Contact";
 
 export default function Home() {
   return (
-    <main>
+    <main id="main">
       <Hero />
-      <About />
-      <Philosophy />
+      <Focus />
+      <Principles />
       <Contact />
     </main>
   );
