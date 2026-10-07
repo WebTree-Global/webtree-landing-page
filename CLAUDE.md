@@ -24,14 +24,17 @@ components/
   Wordmark.tsx            — "WEBTREE GLOBAL" capitals
   SectionHeading.tsx      — Hairline + gold hexagon + title opener for each section
   home/
-    Hero.tsx              — Understated: growing tree, wordmark, tagline only
-    About.tsx             — About sentence + Capital / Technology / Ventures rows
+    Hero.tsx              — Understated: parallax silhouette, growing tree, wordmark, tagline
+    TravellingTree.tsx    — Hero tree that glides into the About stage on wide screens (client)
+    About.tsx             — About sentence, Capital / Technology / Ventures rows, sticky tree stage
+    RegionFocus.tsx       — Scroll-spy: the row at mid-viewport lights its tree region (client)
     Philosophy.tsx        — Statement + three principles
     Contact.tsx           — Email, copy button, location, entity
     CopyEmailButton.tsx   — Clipboard helper (client)
 lib/
   site.ts                 — Company facts and nav links
   tree-geometry.ts        — Vector geometry and growth timing of the hex-tree logo
+  tree-journey.ts         — Stage ids and region names shared by the tree journey
 ```
 
 ## Build & Deploy
