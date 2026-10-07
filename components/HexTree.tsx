@@ -12,8 +12,6 @@ interface HexTreeProps {
   className?: string;
   /** Grow the tree from the ground up on first paint. */
   animated?: boolean;
-  /** Always draw this region in gold and dim the rest. */
-  highlight?: TreeRegion;
   /** Light the region named by `data-tree-focus` on <html> (set by RegionFocus). */
   followsFocus?: boolean;
   /** "ghost" draws the faint background silhouette. */
@@ -71,7 +69,6 @@ function partStyle(part: TreePart, animated: boolean, followsFocus: boolean) {
 export default function HexTree({
   className = "",
   animated = false,
-  highlight,
   followsFocus = false,
   variant,
   title,
@@ -80,7 +77,6 @@ export default function HexTree({
     <svg
       viewBox={TREE_VIEWBOX}
       className={`hex-tree ${className}`}
-      data-highlight={highlight}
       data-follow-focus={followsFocus ? "" : undefined}
       data-variant={variant}
       role={title ? "img" : undefined}
