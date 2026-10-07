@@ -12,16 +12,15 @@ interface HexTreeProps {
   className?: string;
   /** Grow the tree from the ground up on first paint. */
   animated?: boolean;
-  /** Draw one region of the tree in gold and dim the rest. */
+  /** Always draw this region in gold and dim the rest. */
   highlight?: TreeRegion;
+  /** Light the region named by `data-tree-focus` on <html> (set by RegionFocus). */
+  followsFocus?: boolean;
+  /** "ghost" draws the faint background silhouette. */
+  variant?: "ghost";
   /** Accessible name. Without one, the tree is decorative. */
   title?: string;
 }
-
-const GOLD = "var(--color-gold)";
-/* Opaque mix, not transparency, so strokes that pass under a hexagon do
-   not show through it. */
-const DIMMED = "color-mix(in oklch, var(--color-gold) 20%, var(--color-ink))";
 
 /** Timing variables read by the .tree-branch and .tree-leaf animations. */
 function timing(delay: number, duration?: number): CSSProperties {
@@ -30,31 +29,37 @@ function timing(delay: number, duration?: number): CSSProperties {
   return style as CSSProperties;
 }
 
-/** The WebTree hex-tree logo, drawn from its vector geometry. */
+/**
+ * The WebTree hex-tree logo, drawn from its vector geometry.
+ * Colours come from the .hex-tree rules in globals.css, keyed on each
+ * element's data-region, so a region can be lit or dimmed with CSS alone.
+ */
 export default function HexTree({
-  className,
+  className = "",
   animated = false,
   highlight,
+  followsFocus = false,
+  variant,
   title,
 }: HexTreeProps) {
-  const colourOf = (region: TreeRegion) =>
-    highlight === undefined || highlight === region ? GOLD : DIMMED;
-
   return (
     <svg
       viewBox={TREE_VIEWBOX}
-      className={className}
+      className={`hex-tree ${className}`}
+      data-highlight={highlight}
+      data-follow-focus={followsFocus ? "" : undefined}
+      data-variant={variant}
       role={title ? "img" : undefined}
       aria-label={title}
       aria-hidden={title ? undefined : true}
       focusable="false"
     >
-      <g fill="none" strokeWidth={TREE_STROKE_WIDTH} strokeLinejoin="miter">
+      <g strokeWidth={TREE_STROKE_WIDTH} strokeLinejoin="miter">
         {TREE_BRANCHES.map((branch) => (
           <polyline
             key={branch.points}
             points={branch.points}
-            stroke={colourOf(branch.region)}
+            data-region={branch.region}
             pathLength={1}
             className={animated ? "tree-branch" : undefined}
             style={animated ? timing(branch.delay, branch.duration) : undefined}
@@ -66,7 +71,7 @@ export default function HexTree({
           <polygon
             key={`${leaf.cx},${leaf.cy}`}
             points={hexagonPoints(leaf)}
-            fill={colourOf(leaf.region)}
+            data-region={leaf.region}
             className={animated ? "tree-leaf" : undefined}
             style={animated ? timing(leaf.delay) : undefined}
           />

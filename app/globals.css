@@ -101,6 +101,66 @@ body {
 }
 
 /* ═══════════════════════════════════════════
+   Hex tree colours
+   Each branch and leaf carries data-region. A region is lit (gold) or
+   dimmed by a static highlight prop, or by the region in focus while the
+   About rows scroll past (data-tree-focus on <html>, set by RegionFocus).
+   ═══════════════════════════════════════════ */
+
+.hex-tree {
+  --tree-lit: var(--color-gold);
+  /* Opaque mix, not transparency, so strokes under a hexagon never show. */
+  --tree-dim: color-mix(in oklch, var(--color-gold) 20%, var(--color-ink));
+}
+
+.hex-tree[data-variant="ghost"] {
+  --tree-lit: color-mix(in oklch, var(--color-gold) 9%, var(--color-ink));
+}
+
+.hex-tree [data-region] {
+  --tone: var(--tree-lit);
+  transition:
+    fill 0.8s var(--ease-out-quint),
+    stroke 0.8s var(--ease-out-quint);
+}
+
+.hex-tree polyline {
+  fill: none;
+  stroke: var(--tone);
+}
+
+.hex-tree polygon {
+  fill: var(--tone);
+}
+
+.hex-tree[data-highlight="roots"] [data-region]:not([data-region="roots"]),
+.hex-tree[data-highlight="branches"] [data-region]:not([data-region="branches"]),
+.hex-tree[data-highlight="canopy"] [data-region]:not([data-region="canopy"]),
+:root[data-tree-focus="roots"] .hex-tree[data-follow-focus] [data-region]:not([data-region="roots"]),
+:root[data-tree-focus="branches"] .hex-tree[data-follow-focus] [data-region]:not([data-region="branches"]),
+:root[data-tree-focus="canopy"] .hex-tree[data-follow-focus] [data-region]:not([data-region="canopy"]) {
+  --tone: var(--tree-dim);
+}
+
+/* Region names (row labels and tree annotations) turn gold with their region. */
+[data-annotation] {
+  color: var(--color-ivory-faint);
+  transition: color 0.8s var(--ease-out-quint);
+}
+
+:root[data-tree-focus="roots"] [data-annotation="roots"],
+:root[data-tree-focus="branches"] [data-annotation="branches"],
+:root[data-tree-focus="canopy"] [data-annotation="canopy"] {
+  color: var(--color-gold);
+}
+
+/* While the hero tree travels into the About stage (TravellingTree), the
+   stage's own copy of the tree stands aside. */
+:root[data-tree-travel] .stage-tree {
+  visibility: hidden;
+}
+
+/* ═══════════════════════════════════════════
    Motion
    Every hidden starting state lives inside a no-preference query, so the
    page is complete when motion is reduced or animations do not run.
@@ -129,6 +189,15 @@ body {
   }
 }
 
+/* Background silhouette: moves at about 60% of scroll speed and fades, so
+   it reads as farther away than the page and recedes as you leave. */
+@keyframes far-drift {
+  to {
+    translate: 0 40svh;
+    opacity: 0.25;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   /* Hero copy: staggered by --delay. */
   .rise {
@@ -150,6 +219,14 @@ body {
 
   /* Sections fade up as they enter the viewport, where the browser supports
      scroll-driven animation. Elsewhere they are simply visible. */
+  @supports (animation-timeline: scroll()) {
+    .parallax-far {
+      animation: far-drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100svh;
+    }
+  }
+
   @supports (animation-timeline: view()) {
     .reveal {
       animation: rise linear both;
