@@ -28,9 +28,10 @@ components/
     TravellingTree.tsx    — Hero tree that glides into the About stage on wide screens (client)
     About.tsx             — About sentence, Capital / Technology / Ventures rows, sticky tree stage
     RegionFocus.tsx       — Scroll-spy: the row at mid-viewport lights its tree region (client)
-    Philosophy.tsx        — Statement + three principles
+    Philosophy.tsx        — Pinned statement beside the three principles
     Contact.tsx           — Email, copy button, location, entity
     CopyEmailButton.tsx   — Clipboard helper (client)
+docs/research/            — Design reference notes
 lib/
   site.ts                 — Company facts and nav links
   tree-geometry.ts        — Vector geometry and growth timing of the hex-tree logo
