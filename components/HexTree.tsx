@@ -22,11 +22,45 @@ interface HexTreeProps {
   title?: string;
 }
 
-/** Timing variables read by the .tree-branch and .tree-leaf animations. */
-function timing(delay: number, duration?: number): CSSProperties {
-  const style: Record<string, string> = { "--delay": `${delay}s` };
-  if (duration !== undefined) style["--duration"] = `${duration}s`;
-  return style as CSSProperties;
+/** Seconds over which a region lights up, from its first-grown part to its last. */
+const LIGHT_SPREAD_SECONDS = 0.45;
+
+/** Growth delays of the first and last part of each region. */
+const GROWTH_SPAN = (() => {
+  const span = {} as Record<TreeRegion, { first: number; last: number }>;
+  for (const { region, delay } of [...TREE_BRANCHES, ...TREE_LEAVES]) {
+    const current = span[region] ?? { first: delay, last: delay };
+    span[region] = { first: Math.min(current.first, delay), last: Math.max(current.last, delay) };
+  }
+  return span;
+})();
+
+/** A region lights in growth order: up the trunk, then out to the leaves. */
+function lightDelay(region: TreeRegion, growthDelay: number): number {
+  const { first, last } = GROWTH_SPAN[region];
+  return ((growthDelay - first) / (last - first)) * LIGHT_SPREAD_SECONDS;
+}
+
+interface TreePart {
+  region: TreeRegion;
+  delay: number;
+  duration?: number;
+}
+
+/**
+ * Per-part timing variables: --delay and --duration for the growth
+ * animation, --light-delay for the region highlight (see globals.css).
+ */
+function partStyle(part: TreePart, animated: boolean, followsFocus: boolean) {
+  const style: Record<string, string> = {};
+  if (animated) {
+    style["--delay"] = `${part.delay}s`;
+    if (part.duration !== undefined) style["--duration"] = `${part.duration}s`;
+  }
+  if (followsFocus) {
+    style["--light-delay"] = `${lightDelay(part.region, part.delay).toFixed(3)}s`;
+  }
+  return Object.keys(style).length > 0 ? (style as CSSProperties) : undefined;
 }
 
 /**
@@ -62,7 +96,7 @@ export default function HexTree({
             data-region={branch.region}
             pathLength={1}
             className={animated ? "tree-branch" : undefined}
-            style={animated ? timing(branch.delay, branch.duration) : undefined}
+            style={partStyle(branch, animated, followsFocus)}
           />
         ))}
       </g>
@@ -73,7 +107,7 @@ export default function HexTree({
             points={hexagonPoints(leaf)}
             data-region={leaf.region}
             className={animated ? "tree-leaf" : undefined}
-            style={animated ? timing(leaf.delay) : undefined}
+            style={partStyle(leaf, animated, followsFocus)}
           />
         ))}
       </g>

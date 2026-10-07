@@ -117,11 +117,13 @@ body {
   --tree-lit: color-mix(in oklch, var(--color-gold) 9%, var(--color-ink));
 }
 
+/* Lighting up follows growth order (--light-delay, set per part by HexTree);
+   dimming happens at once. */
 .hex-tree [data-region] {
   --tone: var(--tree-lit);
   transition:
-    fill 0.8s var(--ease-out-quint),
-    stroke 0.8s var(--ease-out-quint);
+    fill 0.5s ease-in-out var(--light-delay, 0s),
+    stroke 0.5s ease-in-out var(--light-delay, 0s);
 }
 
 .hex-tree polyline {
@@ -140,6 +142,7 @@ body {
 :root[data-tree-focus="branches"] .hex-tree[data-follow-focus] [data-region]:not([data-region="branches"]),
 :root[data-tree-focus="canopy"] .hex-tree[data-follow-focus] [data-region]:not([data-region="canopy"]) {
   --tone: var(--tree-dim);
+  transition-delay: 0s;
 }
 
 /* Region names (row labels and tree annotations) turn gold with their region. */

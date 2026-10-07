@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 
 const spectral = Spectral({
   subsets: ["latin"],
-  weight: ["300", "400"],
+  weight: "300",
   style: ["normal", "italic"],
   variable: "--font-spectral",
   display: "swap",
